@@ -10,7 +10,7 @@
 	}
 
 	$.fn.sutrix = function() {
-		// assign to easy access everywhere.
+		// it's easy access everywhere.
 		opt.root = this;
 		opt.viewport = $(".viewport", this);
 		opt.controls = $(".controls", this);
@@ -63,6 +63,7 @@
 		var item = holder.find("li:first");
 		var delta = item.width();
 
+		// animate, then change order of the image
 		holder.animate({left: "-="+ delta +"px"}, 800, function()
 		{
 			holder.css("margin-left", "+="+ delta +"px");
@@ -87,9 +88,11 @@
 		var item = holder.find("li:last");
 		var delta = item.width();
 
+		//change order of the image
 		holder.css("margin-left", "-="+ delta +"px");
 		holder.find("li:first").before(holder.find("li").slice(-1));
 
+		//then animate
 		holder.animate({left: "+="+ delta +"px"}, 800, function(){
 			holder.css("margin-left", "0px");
 			holder.css("left", "0px");
