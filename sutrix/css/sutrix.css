@@ -1,5 +1,16 @@
-.selected {
+/*.selected {
 	border-width: 2px;
 	border-style: solid;
 	border-color: green;
 }
+*/
+ul {
+	margin: 0px;
+}
+
+ul li {
+	list-style: none;
+	float: left;
+	display: inline-block;
+}
+

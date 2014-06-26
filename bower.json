@@ -2,6 +2,7 @@
 	"name": "sutrix_casual",
 	"version": "0.0.1",
 	"dependencies": {
-		"jquery":"latest"
+		"jquery":"latest",
+		"bootstrap": "*"
 	}
 }

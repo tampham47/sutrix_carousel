@@ -1,51 +1,100 @@
-// 'use strict'
+//sutrix carousel
+
+// not center
 
 (function ($) {
+	var option =
+	{
+		available: true
+	}
+
 	$.fn.sutrix = function() {
-		console.log(this.height() + " | " + this.width());
-		console.log("sutrix_casual");
+		// assign for access everywhere.
+		option.root = this;
 
-		this.css("background-color", "gray");
-		$("img", this).bind("click", $.img_click);
+		// detect window resize
+		$.screen_change();
+		$(window).resize($.screen_change);
 
-		// init image
-		$("img", this).css("position","relative");
-		$.nav_button(this);
+		// $("#uull").ready(function(){
+		// 	console.log("uull ready");
+		// 	var a = $("#sutrix").width();
+		// 	var b = $("#uull").width();
+
+		// 	// $("#uull").css("margin-left", "-=" + (b/2 - a/2) + "px");
+		// 	// $("#uull").css("margin-left", "-=900px");
+		// 	// $("#uull").css("margin-left", "+=532px");
+		// })
+
+		// fire an event when click on an image
+		$(".viewport img").bind("click", $.img_click);
+
+		// move to left
+		$(".controls .left").bind("click", function(){
+			$.move_left();
+		});
+
+		//move to right
+		$(".controls .right").bind("click", function(){
+			$.move_right();
+		});
+	}
+
+	$.screen_change = function() {
+		// var root = $("#sutrix");
+		var root = option.root;
+		var uull = $("#uull");
+
+		if (uull.width() < root.width())
+		{
+			$("#sutrix .controls").hide(500);
+			option.available = false;
+		} else
+		{
+			$("#sutrix .controls").show(500);
+			option.available = true;
+		}
 	}
 
 	$.img_click = function() {
-		var parent = $(this).parent();
-		$("img", parent).removeClass("selected");
-		$(this).addClass("selected");
+		var img = $(this);
 
-		// move
-		console.log($(this).offset().left + " | " +  parent.width());
-		e = $(this);
-		var midPanel = parent.width() / 2;
-		var midElement = e.offset().left + e.width() / 2;
-		var delta = Math.abs(midPanel - midElement);
-		console.log(midPanel + " | " + midElement);
+		var mid_root = option.root.width() / 2;
+		var mid_element = img.offset().left + img.width() / 2;
+		var delta = Math.abs(mid_root - mid_element);
 
-		// move to center
-		if (midPanel - midElement > 0)
-			$("img", parent).animate({left: "+="+delta+"px"}, 800);
-		else
-			$("img", parent).animate({left: "-="+delta+"px"}, 800);
-
-		$.move_to_center();
-		console.log("img_click");
-		console.log(this);
+		//move to center
+		if (mid_root - mid_element > 0)
+		{
+			$.move_right(delta);
+		} else
+		{
+			$.move_left(delta);
+		}
 	}
 
-	$.move_to_center = function() {
-		console.log("move_to_center");
-		// $(this).animate({left: "-=30px"}, 1000);
+	$.move_left = function(delta) {
+		if (!option.available) return;
+
+		delta = 532;
+		// if (delta === undefined) delta = 532;
+
+		$("#uull").animate({left: "-="+ delta +"px"}, 800, function()
+		{
+			$("#uull").css("margin-left", "+="+ delta +"px");
+			$("#uull").find("li:last").after($("#uull").find("li").slice(0,1));
+		});
 	}
 
-	// add two nav buttons
-	$.nav_button = function(root) {
-		// var left = $("<button style='position:relative; left:0px; top:-100px'><img src='sutrix/img/Previous.png' width='20'></button>");
-		// root.append(left);
-		console.log("nav_button");
+	$.move_right = function(delta) {
+		if (!option.available) return;
+
+		delta = 532;
+		// if (delta === undefined) delta = 532;
+
+		$("#uull").css("margin-left", "-="+ delta +"px");
+		$("#uull").animate({left: "+="+ delta +"px"}, 800);
+		$("#uull").find("li:first").before($("#uull").find("li").slice(-1));
 	}
+
 }(jQuery));
